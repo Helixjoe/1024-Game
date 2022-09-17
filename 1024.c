@@ -5,8 +5,9 @@
 //functions used
 void display(int arr[4][4]);
 void UP(int arr[4][4]);
+void DOWN(int arr[4][4]);
 int quitcheck(int arr[4][4]);
-void spawn(int arr[4][4]);
+void spawn(int arr[4][4],int num);
 
 int main(){
     int i,j,arr[4][4],choice,cont = 1;
@@ -15,7 +16,7 @@ int main(){
             arr[i][j] = 0;
         }
     }
-    spawn(arr);
+    spawn(arr,2);
     
     display(arr);
     
@@ -26,7 +27,15 @@ int main(){
         {
             UP(arr);
             display(arr);
-            spawn(arr);
+            spawn(arr,1);
+            display(arr);
+        }
+        if (choice == 2)
+        {
+            DOWN(arr);
+            display(arr);
+            spawn(arr,1);
+            display(arr);
         }
         else if(choice == 4){
             cont = 0;
@@ -58,23 +67,24 @@ for(i=0;i<4;i++){
 }
 
 void UP(int arr[4][4]){
-    int r,c,next;
+    int r,c,next,mark=8;
     for(r=3;r>0;r--)
     {
-            
         for(c=0;c<4;c++)
         {
             next = arr[r-1][c];
-            if (next == arr[r][c]){
+            if (c != mark && next == arr[r][c]){
                 arr[r-1][c] = 2 * arr[r][c];
-                arr[r][c] =  0; 
+                arr[r][c] =  0;
+                mark = c;     
             }
             else if(next == 0){
                 arr[r-1][c] = arr[r][c];
                 arr[r][c] =  0; 
             }
-            else
+            else if (c == mark || next != arr[r][c])
                 continue;
+                
         }
     }
     
@@ -95,25 +105,65 @@ int quitcheck(int arr[4][4])
         return 1;
 }
 
-void spawn(int arr[4][4]){
-    int i,x,y,x1,y1;
+void spawn(int arr[4][4],int num){
+    int i,x,y,x1,y1,done = 0;
     srand(time(0));
-    for(i =0;i<2;i++){
-    x = rand()%3;  
-    y = rand()%3;
-    if(x1 == x && y1 == y)
-        if(x<3 && y<3)
+    
+        for(i =0;i<num;i++)
         {
-            x += 1;  
-            y += 1;
-        }
-        else{
-            x -= 1;  
-            y -= 1;
-        }
+            done = 0;
+            while(done == 0)
+            {   
+                x = rand()%4;  
+                y = rand()%4;
 
-    arr[x][y] = 2;
-    x1 = x;
-    y1 = y;
+                while(x1 == x && y1 == y)
+                {
+                    if(x<3 && y<3)
+                    {
+                        x += rand()%3;  
+                        y += rand()%3;
+                    }
+                    else
+                    {
+                        x -= rand()%3;  
+                        y -= rand()%3;
+                    }
+                }
+
+                if(arr[x][y]==0)
+                {
+                    arr[x][y] = 1;
+                    done = 1;
+                }
+                else 
+                     continue;
+                x1 = x;
+                y1 = y;
+            }
     }
+}
+
+void DOWN(int arr[4][4]){
+    int r,c,next,mark=8;
+    for(r=0;r<3;r++)
+    {
+        for(c=0;c<4;c++)
+        {
+            next = arr[r+1][c];
+            if (c != mark && next == arr[r][c]){
+                arr[r+1][c] = 2 * arr[r][c];
+                arr[r][c] =  0;
+                mark = c;     
+            }
+            else if(next == 0){
+                arr[r+1][c] = arr[r][c];
+                arr[r][c] =  0; 
+            }
+            else if (c == mark || next != arr[r][c])
+                continue;
+                
+        }
+    }
+    
 }
