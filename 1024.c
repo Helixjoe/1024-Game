@@ -6,6 +6,9 @@
 void display(int arr[4][4]);
 void UP(int arr[4][4]);
 void DOWN(int arr[4][4]);
+void LEFT(int arr[4][4]);
+void RIGHT(int arr[4][4]);
+
 int quitcheck(int arr[4][4]);
 void spawn(int arr[4][4],int num);
 
@@ -37,7 +40,21 @@ int main(){
             spawn(arr,1);
             display(arr);
         }
-        else if(choice == 4){
+        if (choice == 3)
+        {
+            LEFT(arr);
+            display(arr);
+            spawn(arr,1);
+            display(arr);
+        }
+        if (choice == 4)
+        {
+            RIGHT(arr);
+            display(arr);
+            spawn(arr,1);
+            display(arr);
+        }
+        else if(choice == 5){
             cont = 0;
         }
 
@@ -67,22 +84,29 @@ for(i=0;i<4;i++){
 }
 
 void UP(int arr[4][4]){
-    int r,c,next,mark=8;
-    for(r=3;r>0;r--)
+    int r,c,next,same=0;
+    for(c=0;c<3;c++)
     {
-        for(c=0;c<4;c++)
+        for(r=0;r<3;r++)
         {
             next = arr[r-1][c];
-            if (c != mark && next == arr[r][c]){
-                arr[r-1][c] = 2 * arr[r][c];
-                arr[r][c] =  0;
-                mark = c;     
-            }
-            else if(next == 0){
+            if(next == 0){
                 arr[r-1][c] = arr[r][c];
                 arr[r][c] =  0; 
             }
-            else if (c == mark || next != arr[r][c])
+            else if (next == arr[r][c]){
+                if(same == 0)
+                {
+                    arr[r-1][c] = 2 * arr[r][c];
+                    arr[r][c] =  0;
+                    same = 1;
+                }
+                else
+                    continue;
+                    
+            }
+            
+            else if (next != arr[r][c])
                 continue;
                 
         }
@@ -145,6 +169,55 @@ void spawn(int arr[4][4],int num){
 }
 
 void DOWN(int arr[4][4]){
+    int r,c,next,mark=8;
+    for(r=0;r<3;r++)
+    {
+        for(c=0;c<4;c++)
+        {
+            next = arr[r+1][c];
+            if (c != mark && next == arr[r][c]){
+                arr[r+1][c] = 2 * arr[r][c];
+                arr[r][c] =  0;
+                mark = c;     
+            }
+            else if(next == 0){
+                arr[r+1][c] = arr[r][c];
+                arr[r][c] =  0; 
+            }
+            else if (c == mark || next != arr[r][c])
+                continue;
+                
+        }
+    }
+    
+}
+
+
+void RIGHT(int arr[4][4]){
+    int r,c,next,mark=8;
+    for(r=0;r<3;r++)
+    {
+        for(c=0;c<4;c++)
+        {
+            next = arr[r+1][c];
+            if (c != mark && next == arr[r][c]){
+                arr[r+1][c] = 2 * arr[r][c];
+                arr[r][c] =  0;
+                mark = c;     
+            }
+            else if(next == 0){
+                arr[r+1][c] = arr[r][c];
+                arr[r][c] =  0; 
+            }
+            else if (c == mark || next != arr[r][c])
+                continue;
+                
+        }
+    }
+    
+}
+
+void LEFT(int arr[4][4]){
     int r,c,next,mark=8;
     for(r=0;r<3;r++)
     {
