@@ -102,10 +102,19 @@ void UP(int arr[4][4]){
             else if (next == arr[r][c]){
                 if(dub == 0)
                 {
-                arr[r-1][c] = 2 * arr[r][c];
-                arr[r][c] =  0;
-                dub = 1;
-                }
+                    if(r<3)
+                    {
+                    arr[r-1][c] = 2 * arr[r][c];
+                    arr[r][c] =  arr[r+1][c];
+                    dub = 1;
+                    }
+                    else
+                    {
+                    arr[r-1][c] = 2 * arr[r][c];
+                    arr[r][c] =  0;
+                    dub = 1;
+                    }
+                }    
                 else
                     continue;          
             }
